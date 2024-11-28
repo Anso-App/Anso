@@ -1,0 +1,149 @@
+# Here are some ideas that have yet to be explored in practice.
+
+# complex condition
+fn1:
+  type: request
+  condition:
+    operator: and  # and / or
+    conditions:
+      - variable: choose
+        type: contain
+        value: joke
+      - operator: or  # nestable
+        conditions:
+          - variable: a
+            type: greater_than
+            value: 0
+          - variable: b
+            type: less_than
+            value: 0
+
+
+# request refer
+get_request:
+  description: "Generic GET request"
+  url: "/api/resource"
+  method: "GET"
+  headers:
+    Content-Type: "application/json"
+    Authorization: "Bearer <token>"
+  query_parameters:
+    - name: "search"
+      type: "string"
+      required: false
+      description: "搜索关键字"
+    - name: "page"
+      type: "integer"
+      required: false
+      description: "页码"
+  response:
+    type: "object"
+    properties:
+      total:             # 总记录数
+        type: integer
+      data:              # 资源数据数组
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+            created_at:
+              type: string
+              format: "date-time"
+      error:             # 错误信息，可能为空
+          type: object
+          properties:
+            code:
+              type: integer
+            message:
+              type: string
+  output:
+    $.data[0].id: v1
+    $.data[0].name: v2 
+    $.total: v3             
+    $.error.message: v4     
+
+post_request:
+  description: "Generic POST request"
+  url: "/api/resource"
+  method: "POST"
+  headers:
+    Content-Type: "application/json"
+    Authorization: "Bearer <token>"
+  body:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        required: true
+      description:
+        type: "string"
+        required: false
+  response:
+    type: "object"
+    properties:
+      id:                    
+        type: integer
+      created_at:           
+        type: string
+        format: "date-time"
+      error:               
+        type: object
+        properties:
+          code:
+            type: integer
+          message:
+            type: string
+  output:
+    $.id: v1                  
+    $.created_at: v2        
+    $.error.message: v3  
+
+
+
+# some simplify 
+
+body:
+  id: integer
+  created_at: string
+  info:
+    name: string
+
+# like:
+# {
+#   id: 1,
+#   created_at: "2023-01-01T12:00:00Z",
+#   info: {
+#     name: "someone",
+#   }
+# }
+
+body:
+  list:
+    - id: integer
+      name: string
+      created_at: string
+
+# like： 
+# [
+#   {
+#     "id": 1,
+#     "name": "Item 1",
+#     "created_at": "2023-01-01T12:00:00Z"
+#   },
+#   {
+#     "id": 2,
+#     "name": "Item 2",
+#     "created_at": "2023-01-02T12:00:00Z"
+#   }
+# ]
+
+body:
+  list:
+    - string
+
+# like：
+# ["item1", "item2", "item3"]

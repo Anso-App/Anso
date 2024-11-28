@@ -1,0 +1,43 @@
+# [⭐️ required] In case we need to update the version later,
+# and adding a version number will make us look professional 😎
+version: 1
+
+# Configuration type，could be llm or a pipeline
+kind: pipeline
+
+metadata:
+  # [⭐️ required] Fill your name or nickname
+  author: your name
+  # [⭐️ required] Fill the name of your assistant
+  name: Suggestions for going out.
+  # [💫 optional] this will be displayed for other people
+  introduce: I will recommend the most suitable mode of transportation and outfit for today based on your location
+  # [💫 optional] If you fill, platforms not on the list will not be able to use.
+  # If you don't use this field, the default is full platform support
+  supports:
+    - Web
+    - Windows
+    - macOS
+    - Linux
+    - Android
+    - iOS
+
+# You can use these variables in all the functions, 
+# and they will be used as parameters during the input stage, assigned values during the output stage.
+variables:
+  - latitude
+  - longitude
+  - daily
+  - timezone
+
+
+
+# a func can be a llm, request, cmd, built-in tools(like calculation), script, other assistants
+# you can give your function a fitting name
+getWeather:
+  # [⭐️ required] Fill the type of your func
+  type: func 
+  
+
+
+# refer: https://platform.openai.com/docs/api-reference/chat/create

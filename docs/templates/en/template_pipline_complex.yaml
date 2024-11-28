@@ -1,0 +1,68 @@
+version: 1
+
+kind: pipeline
+
+metadata:
+  author: Anso
+  name: Joke or cat?
+  introduce: Input a joke, or a cat. and I will give you a funny joke or a fact about cats.
+
+# You can use these variables in all the functions,
+# and they will be used as parameters during the input stage, assigned values during the output stage.
+variables:
+  - choose
+  - setup
+  - delivery
+
+# The function that figures out what the user has chosen.
+chooseOne:
+  type: llm
+  model: gpt-4o-mini
+  prompt: |
+    Output the user wants to choose between joke or cat.
+    e.g.
+    { "choose": "cat" }
+  output:
+    # assign the variable
+    $.choose: choose
+
+# Get a Joke
+joke:
+  type: request
+  # the condition can help Anso to judge whether use it
+  # the type have equal, greater_than(more than a number or longer than string), less_than, contain,
+  condition:
+    variable: choose
+    type: contain
+    value: joke
+  url: https://v2.jokeapi.dev/joke/Any
+  method: GET
+  output:
+    $.setup: setup
+    $.delivery: delivery
+
+# Get a fact about cat
+catFact:
+  type: request
+  condition:
+    variable: choose
+    type: contain
+    value: cat
+  url: https://catfact.ninja/fact
+  method: GET
+  output:
+    $.fact: output
+
+# Combiner the joke
+combineJoke:
+  type: assemble
+  condition:
+    variable: choose
+    type: contain
+    value: joke
+  assemble: |
+    setup: {{setup}}
+    delivery: {{delivery}}
+  output: output
+
+pipeline: [chooseOne, [joke, catFact], combineJoke]

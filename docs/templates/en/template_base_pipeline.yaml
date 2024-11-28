@@ -1,0 +1,98 @@
+# [⭐️ required] In case we need to update the version later,
+# and adding a version number will make us look professional 😎
+version: 1
+
+# Configuration type，could be llm or a pipeline
+kind: pipeline
+
+metadata:
+  # [⭐️ required] Fill your name or nickname
+  author: Anso
+  # [⭐️ required] Fill the name of your assistant
+  name: Suggestions for going out.
+  # [💫 optional] this will be displayed for other people
+  introduce: I will recommend the most suitable mode of transportation and outfit for today based on your location
+  # [💫 optional] If you fill, platforms not on the list will not be able to use.
+  # If you don't use this field, the default is full platform support
+  supports:
+    - Web
+    - Windows
+    - macOS
+    - Linux
+    - Android
+    - iOS
+
+# You can use these variables in all the functions, 
+# and they will be used as parameters during the input stage, assigned values during the output stage.
+variables:
+  # When you just provide a key name, 
+  # it defaults to a required field that is initially an empty string.
+  - latitude
+  # can also be written as:
+  - longitude: string
+  # can also be written as:
+  - forecast_days:
+      type: string
+      required: false
+      default: "1"
+  - daily
+  - timezone
+  - weatherData
+
+# A func can be a llm, request, assemble, cmd, built-in tools(like calculation), script, other assistants
+# You can give your function a fitting name
+getParams:
+  # [⭐️ required] Fill the type of your func
+  type: llm
+  model: gpt-4o-mini
+  # [⭐️ required] Fill your input Use {{}} wrap a variable (The input and output are preset variables.）
+  # The $region is the build-in system variable provided by Anso
+  prompt: |
+    the region is {{$region}}
+    user question is {{input}}
+    please output parameters for api.open-meteo.com based on the information above
+    e.g.
+    { 
+      "latitude": "39.9042", 
+      "longitude": "116.4074",
+      "forecast_days": "7",
+      "daily": "temperature_2m_max,temperature_2m_min,precipitation_sum",
+      "timezone": "Asia/Shanghai" 
+    }
+  # If you use the output field as a struct,
+  # then you can use $.key to indicate the key in the JSON.
+  # When use the format of $.key, llm will automatically enable JSON mode.
+  output:
+    $.latitude: latitude
+    $.longitude: longitude
+    $.forecast_days: forecast_days
+    $.daily: daily
+    $.timezone: timezone
+
+# func 2
+getWeather:
+  # [⭐️ required] Fill the type of your func
+  type: request 
+  url: https://api.open-meteo.com/v1/forecas
+  method: GET
+  # The default assumes that the content-type is application/json.
+  # You can also extract a certain key in the JSON in the same way as above ($.key).
+  output: weatherData
+
+# func 3
+suggester:
+  # [⭐️ required] Fill the type of your func
+  type: llm
+  model: gpt-4o-mini
+  # [⭐️ required] Fill your input Use {{}} wrap a variable (The input and output are preset variables.）
+  # The $region is the build-in system variable provided by Anso
+  prompt: |
+    user input is {{input}}
+    and the weather data is:
+    {{weatherData}}
+    Please give suggestions about going out, such as what I should wear, what transportation is suitable, and what precautions I should take
+  # the output is a special variable, you don't need to declare, but it will be output for the user
+  output: output
+
+# The pipeline is used to express how you want your function to run.
+pipeline: [getParams, getWeather, suggester] # means getParams -> getWeather -> suggester
