@@ -1,2 +1,6 @@
 node_modules
 dist
+
+# other stuff
+.DS_Store
+Thumbs.db

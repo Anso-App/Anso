@@ -9,15 +9,13 @@ Anso is a configuration-driven efficacy creative tool (not just by llm)
 
 ``` bash
 bun install
-bun run tauri android init
-bun run tauri ios init
 
 For Desktop development, run:
-  bun run tauri dev
+  bun tauri dev
 
 For Android development, run:
-  bun run tauri android dev
+  bun tauri android dev
 
 For iOS development, run:
-  bun run tauri ios dev
+  bun tauri ios dev
 ```
