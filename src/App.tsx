@@ -27,7 +27,9 @@ function App() {
           <img src={logo} class="logo solid" alt="Solid logo" />
         </a>
       </div>
-      <p class="text-yellow-100 pb-2">Click on the Tauri, Vite, and Solid logos to learn more.</p>
+      <p class="text-yellow-100 pb-2">
+        Click on the Tauri, Vite, and Solid logos to learn more.
+      </p>
 
       <form
         class="row"

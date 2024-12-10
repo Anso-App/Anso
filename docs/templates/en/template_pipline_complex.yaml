@@ -24,7 +24,7 @@ chooseOne:
     { "choose": "cat" }
   output:
     # assign the variable
-    $.choose: choose
+    choose: choose
 
 # Get a Joke
 joke:
@@ -38,8 +38,8 @@ joke:
   url: https://v2.jokeapi.dev/joke/Any
   method: GET
   output:
-    $.setup: setup
-    $.delivery: delivery
+    setup: setup
+    delivery: delivery
 
 # Get a fact about cat
 catFact:
@@ -51,7 +51,7 @@ catFact:
   url: https://catfact.ninja/fact
   method: GET
   output:
-    $.fact: output
+    fact: output
 
 # Combiner the joke
 combineJoke:

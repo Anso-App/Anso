@@ -59,15 +59,14 @@ getParams:
       "daily": "temperature_2m_max,temperature_2m_min,precipitation_sum",
       "timezone": "Asia/Shanghai" 
     }
-  # If you use the output field as a struct,
-  # then you can use $.key to indicate the key in the JSON.
-  # When use the format of $.key, llm will automatically enable JSON mode.
+  # you can use struct type to indicate the key in the JSON.
+  # When use the format of struct, llm will automatically enable JSON mode.
   output:
-    $.latitude: latitude
-    $.longitude: longitude
-    $.forecast_days: forecast_days
-    $.daily: daily
-    $.timezone: timezone
+    latitude: latitude
+    longitude: longitude
+    forecast_days: forecast_days
+    daily: daily
+    timezone: timezone
 
 # func 2
 getWeather:
@@ -76,7 +75,7 @@ getWeather:
   url: https://api.open-meteo.com/v1/forecas
   method: GET
   # The default assumes that the content-type is application/json.
-  # You can also extract a certain key in the JSON in the same way as above ($.key).
+  # You can also extract a certain key in the JSON in the same way as above.
   output: weatherData
 
 # func 3
