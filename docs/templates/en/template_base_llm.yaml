@@ -5,7 +5,7 @@ version: 1
 # [⭐️ required] Configuration type，could be llm or a pipeline
 kind: llm
 
-metadata:
+info:
   # [⭐️ required] Fill your name or nickname
   author: Anso
   # [⭐️ required] Fill the name of your assistant

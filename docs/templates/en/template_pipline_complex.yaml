@@ -2,7 +2,7 @@ version: 1
 
 kind: pipeline
 
-metadata:
+info:
   author: Anso
   name: Joke or cat?
   introduce: Input a joke, or a cat. and I will give you a funny joke or a fact about cats.
