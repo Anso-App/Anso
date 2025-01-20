@@ -2,7 +2,7 @@
 # and adding a version number will make us look professional 😎
 version: 1
 
-# [⭐️ required] Configuration type，could be llm or a pipeline
+# [⭐️ required] Configuration type，could be llm or a workflow
 kind: llm
 
 info:

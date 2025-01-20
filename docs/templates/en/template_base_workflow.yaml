@@ -2,8 +2,8 @@
 # and adding a version number will make us look professional 😎
 version: 1
 
-# Configuration type，could be llm or a pipeline
-kind: pipeline
+# Configuration type，could be llm or a workflow
+kind: workflow
 
 info:
   # [⭐️ required] Fill your name or nickname
@@ -93,5 +93,5 @@ suggester:
   # the output is a special variable, you don't need to declare, but it will be output for the user
   output: output
 
-# The pipeline is used to express how you want your function to run.
-pipeline: [getParams, getWeather, suggester] # means getParams -> getWeather -> suggester
+# The workflow is used to express how you want your function to run.
+workflow: [getParams, getWeather, suggester] # means getParams -> getWeather -> suggester

@@ -2,8 +2,8 @@
 # and adding a version number will make us look professional 😎
 version: 1
 
-# Configuration type，could be llm or a pipeline
-kind: pipeline
+# Configuration type，could be llm or a workflow
+kind: workflow
 
 info:
   # [⭐️ required] Fill your name or nickname

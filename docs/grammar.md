@@ -2,7 +2,7 @@
 
 ### variable in prompt {{}}
 
-You can use `{{}}` to wrap variables in your pipeline prompts:
+You can use `{{}}` to wrap variables in your workflow prompts:
 
 ``` yaml
 supports:

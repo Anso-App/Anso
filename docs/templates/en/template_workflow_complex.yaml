@@ -1,6 +1,6 @@
 version: 1
 
-kind: pipeline
+kind: workflow
 
 info:
   author: Anso
@@ -65,4 +65,4 @@ combineJoke:
     delivery: {{delivery}}
   output: output
 
-pipeline: [chooseOne, [joke, catFact], combineJoke]
+workflow: [chooseOne, [joke, catFact], combineJoke]
