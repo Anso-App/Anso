@@ -1,0 +1,52 @@
+version: 1
+
+kind: workflow
+
+info:
+  author: Anso
+  name: Simulate shaking dice.
+  introduce: Roll the dice until you get the input.
+
+variables:
+  - times: number
+  - point: number
+
+gamer:
+  type: llm
+  model: gpt-4o-mini
+  condition:
+    variable: point
+    type: not_equal
+    value: input
+  prompt: |
+    you are a dice gamer.
+    you have rolled the dice {{times}} times.
+    pls roll the dice and tell me the result and the times now of rolling.
+  output:
+    times: times
+    point: point
+  next: broadcaster
+
+ending:
+  type: assemble
+  condition:
+    variable: point
+    type: equal
+    value: input
+  assemble: |
+    {{output}}
+    so the gamer rolled {{point}} a total of {{times}} times.
+  output: output
+
+judger:
+  type: assemble
+  assemble: |
+    {{output}}
+    the times of the gamer rolled: {{times}}
+    the gamer rolled: {{point}}
+  output: output
+  next: [gamer, ending]
+
+
+workflow:
+  start: gamer

@@ -30,7 +30,7 @@ chooseOne:
 joke:
   type: request
   # the condition can help Anso to judge whether use it
-  # the type have equal, greater_than(more than a number or longer than string), less_than, contain,
+  # the type have equal, greater_than(more than a number or longer than string), less_than, contain ... and all of these can be prefixed with not, such as not_equal
   condition:
     variable: choose
     type: contain
