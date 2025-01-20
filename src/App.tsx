@@ -1,6 +1,7 @@
 import { createSignal } from "solid-js";
 import logo from "./assets/logo.svg";
 import { invoke } from "@tauri-apps/api/core";
+import "./index.ts";
 import "./App.css";
 
 function App() {

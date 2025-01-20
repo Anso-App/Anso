@@ -1,0 +1,76 @@
+# [⭐️ required] In case we need to update the version later,
+# and adding a version number will make us look professional 😎
+version: 1
+
+# [⭐️ required] Configuration type，could be llm or a workflow
+kind: llm
+
+info:
+  # [⭐️ required] Fill your name or nickname
+  author: Anso
+  # [⭐️ required] Fill the name of your assistant
+  name: Summary Article Assistant
+  # [💫 optional] this will be displayed for other people
+  introduce: I can summarize the article for you!
+  # [💫 optional] If you fill, platforms not on the list will not be able to use.
+  # If you don't use this field, the default is full platform support
+  supports:
+    - Web
+    - Windows
+    - macOS
+    - Linux
+    - Android
+    - iOS
+
+llm:
+  # [⭐️ required] Chose a model that you think is most suitable
+  model: gpt-4o-mini
+  # [⭐️ optional] The maximum number of tokens that can be generated in the chat completion. 
+  max_tokens: 4096
+  # [⭐️ optional] What sampling temperature to use, between 0 and 2. 
+  # Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+  temperature: 1
+
+assistant:
+  # [💫 optional] A good introduction should include the main features, when use it, and how to use it.
+  introduce: Help users efficiently summarize article content. It is suitable for scenarios that require distilling information and quickly understanding the main points of an article. When using, simply input the main content of the article into the template to generate a concise and clear summary.
+  # [💫 optional] How many rounds of conversations can the assistant refer to at most. Default no limit.
+  contextRound: 1
+  # [💫 optional] The prefix will be added to the front of the user's input.
+  prefix: |
+    The following is the content that needs to be summarized:
+    [article start]
+  # [💫 optional] The postfix will be added to the end of the user's input.
+  postfix: | 
+    [article end]
+  # [⭐️ required] Write a suitable prompt based on your preferences.
+  prompt: |
+    **Summary Article Assistant**
+
+    **Title:** [Insert Title Here]
+
+    **Introduction:**
+    - Briefly introduce the main topic of the article.
+    - State the purpose of the article and its significance.
+
+    **Main Points:**
+    1. **Key Point 1:**
+      - Summarize the first major point discussed in the article.
+      - Include any important data or examples that support this point.
+
+    2. **Key Point 2:**
+      - Summarize the second major point.
+      - Highlight any relevant findings or arguments presented.
+
+    3. **Key Point 3:**
+      - Summarize the third major point.
+      - Mention any implications or consequences discussed in the article.
+
+    **Conclusion:**
+    - Recap the main points briefly.
+    - Discuss the overall significance of the article and its contributions to the field.
+    - Suggest any further reading or research areas if applicable.
+
+    **Notes:**
+    - Ensure to maintain the original tone and intent of the article.
+    - Keep the summary concise and focused on the essential elements.
