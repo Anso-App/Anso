@@ -1,0 +1,35 @@
+version: 1
+
+kind: workflow
+
+info:
+  author: Anso
+  name: Stream Assemble
+  introduce: Stream Assemble
+
+fn1:
+  # [⭐️ required] Fill the type of your func
+  type: llm
+  model: gpt-4o-mini
+  # [⭐️ required] Fill your input Use {{}} wrap a variable (The input and output are preset variables.）
+  # The $region is the build-in system variable provided by Anso
+  prompt: |
+    output the weather today
+  output: stream1
+
+fn2:
+  type: llm
+  model: gpt-4o-mini
+  prompt: |
+    output the weather tomorrow
+  output: stream2
+
+# while the output contain the stream output, the output will be the stream output
+combine:
+  type: assemble
+  assemble: |
+    today: {{stream1}}
+    tomorrow: {{stream2}}
+  output: output
+
+workflow: [[fn1, fn2], combine]
