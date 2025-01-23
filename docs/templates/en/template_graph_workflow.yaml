@@ -38,7 +38,7 @@ ending:
     so the gamer rolled {{point}} a total of {{times}} times.
   output: output
 
-judger:
+broadcaster:
   type: assemble
   assemble: |
     {{output}}
