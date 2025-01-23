@@ -1,53 +1,58 @@
-import { createSignal } from "solid-js";
-import logo from "./assets/logo.svg";
-import { invoke } from "@tauri-apps/api/core";
-import "./index.ts";
+import {
+  createContext,
+  createSignal,
+  createResource,
+  onMount,
+  useContext,
+  JSXElement,
+} from "solid-js";
 import "./App.css";
+import {Processor, unified} from "unified";
+import rehypeParse from "rehype-parse";
+import rehypeReact from "rehype-react";
+import { Fragment, jsx, jsxs } from "solid-js/h/jsx-runtime";
+
+const MyContext = createContext<string>();
+
+const processor = unified()
+  .use(rehypeParse, { fragment: true })
+  .use(rehypeReact, {
+    Fragment,
+    jsx,
+    jsxs,
+    elementAttributeNameCase: "html",
+    stylePropertyNameCase: "css",
+    components: {
+      div: () => {
+        const ctx = useContext(MyContext);
+        return <div>Context: {ctx}</div>;
+      },
+    },
+  }) as Processor;
 
 function App() {
-  const [greetMsg, setGreetMsg] = createSignal("");
-  const [name, setName] = createSignal("");
+  const [content, setContent] = createSignal<JSXElement>();
+  const [another] = createResource<JSXElement>(async () => {
+    const file = await processor.process(`
+    <h1>Hello World</h1>
+    <div></div>
+    `);
+    return file.result as JSXElement;
+  });
 
-  async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-    setGreetMsg(await invoke("greet", { name: name() }));
-  }
+  onMount(async () => {
+    const file = await processor.process(`
+    <h1>Hello World</h1>
+    <div></div>
+    `);
+    setContent(() => file.result as JSXElement);
+  });
 
   return (
-    <main class="container">
-      <h1>Welcome to Tauri + Solid</h1>
-
-      <div class="row">
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" class="logo vite" alt="Vite logo" />
-        </a>
-        <a href="https://tauri.app" target="_blank">
-          <img src="/tauri.svg" class="logo tauri" alt="Tauri logo" />
-        </a>
-        <a href="https://solidjs.com" target="_blank">
-          <img src={logo} class="logo solid" alt="Solid logo" />
-        </a>
-      </div>
-      <p class="text-yellow-100 pb-2">
-        Click on the Tauri, Vite, and Solid logos to learn more.
-      </p>
-
-      <form
-        class="row"
-        onSubmit={(e) => {
-          e.preventDefault();
-          greet();
-        }}
-      >
-        <input
-          id="greet-input"
-          onChange={(e) => setName(e.currentTarget.value)}
-          placeholder="Enter a name..."
-        />
-        <button type="submit">Greet</button>
-      </form>
-      <p>{greetMsg()}</p>
-    </main>
+    <MyContext.Provider value="Hello World">
+      <div>{content()}</div>
+      <div>{another()}</div>
+    </MyContext.Provider>
   );
 }
 
